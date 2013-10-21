@@ -2,4 +2,7 @@
 import xrld
 import sqlite3
 
-print "Init Project"
+dbconnection = sqlite3.connect("database.db")
+cursor = connect.cursor()
+
+openfile = 
