@@ -9,7 +9,7 @@ sheet = openfile.sheet_by_index(0)
 nrows = sheet.nrows
 ncols = sheet.ncols
 
-conn = sqlite3.connect('trabalho.sqlite3')
+conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
 
 cursor.execute("DROP TABLE IF EXISTS inscritos")
