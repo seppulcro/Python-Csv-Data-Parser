@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""create_database.py: Description of what foobar does."""
+"""create_database.py: Module used for creating and populating SQLAlchemy
+Database."""
 
 """
 __author__      = "Marco Sacristão, Jorge Batista"
