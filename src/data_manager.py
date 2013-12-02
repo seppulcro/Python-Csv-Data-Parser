@@ -63,20 +63,20 @@ class results(BASE):
 		id 					= Column(Integer, primary_key=True)
 		InstitutionCode 	= Column(Integer(4))
 		CourseCode 			= Column(Integer(4))
-		InstiutionName 		= Column(String(100))
+		InstitutionName 		= Column(String(100))
 		CourseName 			= Column(String(100))
 		Degree 				= Column(String(2))
 		InitialOpenings		= Column(Integer(2))
 		Placed				= Column(Integer(3))
 		LastApplicantGrade	= Column(String(4))
 		RemainingOpenings	= Column(Integer(4))
+		District			= Column(String(10))
 		print "Successfully setup table: '" + __tablename__ + "'!"
 	except:
 		print "Failed to setup SQAlchemy database's table!"
 
 
 # Function which populates the generated Database's table
-# TODO(Jorge): utilize this function
 def populate_database():
 	# Drop the existing database
 	try:
@@ -90,22 +90,54 @@ def populate_database():
 	except:
 		print "Error: Could not create the Database!"
 
-	try:
-		DATABASE.execute(results.__table__.insert(),
+	DATABASE.execute(results.__table__.insert(),
 		[{
 		"InstitutionCode": SHEET.cell(i,0).value,
 		"CourseCode": SHEET.cell(i,1).value,
-		"InstiutionName": SHEET.cell(i,2).value,
+		"InstitutionName": SHEET.cell(i,2).value,
 		"CourseName": SHEET.cell(i,3).value,
 		"Degree": SHEET.cell(i,4).value,
 		"InitialOpenings": SHEET.cell(i,5).value,
 		"Placed": SHEET.cell(i,6).value,
 		"LastApplicantGrade": SHEET.cell(i,7).value,
 		"RemainingOpenings": SHEET.cell(i,8).value,
+		"District": check_district(SHEET.cell(i,2).value)
 		} for i in range(ROW_INTERVAL_START, ROW_INTERVAL_END)])
-		print "Successfully inserted values into table!"
-	except:
-		print "Error: Could not populate database!"
+	# try:
+	# 	DATABASE.execute(results.__table__.insert(),
+	# 	[{
+	# 	"InstitutionCode": SHEET.cell(i,0).value,
+	# 	"CourseCode": SHEET.cell(i,1).value,
+	# 	"InstitutionName": SHEET.cell(i,2).value,
+	# 	"CourseName": SHEET.cell(i,3).value,
+	# 	"Degree": SHEET.cell(i,4).value,
+	# 	"InitialOpenings": SHEET.cell(i,5).value,
+	# 	"Placed": SHEET.cell(i,6).value,
+	# 	"LastApplicantGrade": SHEET.cell(i,7).value,
+	# 	"RemainingOpenings": SHEET.cell(i,8).value,
+	# 	"District": check_district(SHEET.cell(i,2).value)
+	# 	} for i in range(ROW_INTERVAL_START, ROW_INTERVAL_END)])
+	# 	print "Successfully inserted values into table!"
+	# except:
+	# 	print "Error: Could not populate database!"
 
+def check_district(institution_name):
+	# List of Districts that exist in Portugal
+	available_districts = ['Lisboa','Porto',u'Setúbal','Braga','Aveiro',
+	'Leiria',u'Santarém','Faro','Coimbra','Viseu','Madeira',u'Açores',
+	'Viana do Castelo','Vila Real','Castelo Branco', u'Évora', 'Guarda', 'Beja'
+	u'Bragança', 'Portalegre']
+	# List of InstituteNames that don't have its district in it.
+	unset_districts = ['Algarve','Minho',u'Trás-os-Montes e Alto Douro']
+	for i in range(0,len(available_districts)-1):
+		if(available_districts[i] in institution_name):
+			return available_districts[i]
+		else:
+			for n in range(0, len(unset_districts)-1):
+				if(unset_districts[n] in institution_name):
+					if(n==1): # Algarve is found
+						return available_districts[8] # Return Faro as District
+					elif(n==2): # Minho is found
+						return available_districts[3] # Return Braga as District
 #Execute the whole code.
 populate_database()
