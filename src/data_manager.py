@@ -12,7 +12,6 @@ __email__		= "msacristao@gmail.com"
 __status__		= "Development"
 """
 
-import sqlite3
 import xlrd
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
@@ -27,6 +26,7 @@ SHEET_NUMBER 	= 0
 try:
 	OPEN_FILE = xlrd.open_workbook(FILE_NAME, encoding_override="utf-8")
 	SHEET = OPEN_FILE.sheet_by_index(SHEET_NUMBER)
+	print SHEET.cell(5,1)
 	"""
 	'Row offsets' are used to know from what interval we should start
 	extracting data from, this way we can exclude any rows that do not contain
@@ -43,7 +43,9 @@ except:
 # SQAlchemy defining declarative base class, connection and debugging.
 try:
 	BASE = declarative_base()
-	DATABASE = create_engine('sqlite:///:memory:', echo=True)
+	DATABASE = create_engine('sqlite:///database.db', echo=True)
+	DB_SESSION = scoped_session(sessionmaker())
+	DB_SESSION.configure(bind=DATABASE, autoflush=False, expire_on_commit=False)
 	print "Running SQLAchemy version... " + sqlalchemy.__version__
 	print "Successfully allocated Database: " + str(DATABASE) + "!"
 except:
@@ -65,7 +67,7 @@ class results(BASE):
 		Degree 				= Column(String(2))
 		InitialOpenings		= Column(Integer(2))
 		Placed				= Column(Integer(3))
-		LastApplicantGrade	= Column(Float(4))
+		LastApplicantGrade	= Column(String(4))
 		RemainingOpenings	= Column(Integer(4))
 		print "Successfully setup table: '" + __tablename__ + "'!"
 	except:
@@ -87,23 +89,22 @@ def populate_database():
 	except:
 		print "Error: Could not create the Database!"
 
-	# Populate the Database's table
 	try:
-		data_number = 0
-		for i in range(ROW_INTERVAL_START, ROW_INTERVAL_END):
-			DATABASE.execute(results.__table__.insert()),
-			[{
-			"InstitutionCode": SHEET.row_values(i),
-			"CourseCode": SHEET.row_values(i),
-			"InstiutionName": SHEET.row_values(i),
-			"CourseName": SHEET.row_values(i),
-			"Degree": SHEET.row_values(i),
-			"InitialOpenings": SHEET.row_values(i),
-			"Placed": SHEET.row_values(i),
-			"LastApplicantGrade": SHEET.row_values(i),
-			"RemainingOpenings": SHEET.row_values(i),
-			}]
-			datanumber=datanumber+1
-		print "Inserted " + data_number + " values!"
+		DATABASE.execute(results.__table__.insert(),
+		[{
+		"InstitutionCode": SHEET.cell(i,0).value,
+		"CourseCode": SHEET.cell(i,1).value,
+		"InstiutionName": SHEET.cell(i,2).value,
+		"CourseName": SHEET.cell(i,3).value,
+		"Degree": SHEET.cell(i,4).value,
+		"InitialOpenings": SHEET.cell(i,5).value,
+		"Placed": SHEET.cell(i,6).value,
+		"LastApplicantGrade": SHEET.cell(i,7).value,
+		"RemainingOpenings": SHEET.cell(i,8).value,
+		} for i in range(ROW_INTERVAL_START, ROW_INTERVAL_END)])
+		print "Successfully inserted values into table!"
 	except:
-		print "Error: Could not populate the Database's table."
+		print "Error: Could not populate database!"
+
+#Execute the whole code.
+populate_database()
