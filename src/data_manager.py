@@ -6,7 +6,7 @@
 __author__      = "Marco Sacristão, Jorge Batista"
 __copyright__   = "Copyright 2013, ESTIG - IPBeja"
 __license__ 	= "GPL"
-__version__		= "1.0.0"
+__version__		= "1.0.1"
 __maintainer__	= "Marco Sacristão"
 __email__		= "msacristao@gmail.com"
 __status__		= "Development"
@@ -30,12 +30,12 @@ try:
 	"""
 	'Row offsets' are used to know from what interval we should start
 	extracting data from, this way we can exclude any rows that do not contain
-	information that should be extracted. This way we can guarantee that changes
-	to the row structure can be easily altered below to read from a different 
-	interval.
+	information that should be extracted. This way we can guarantee that 
+	changes	to the row structure can be easily altered below to read 
+	from a different interval.
 	"""
-	ROW_OFFSET_TOP 		= 3
-	ROW_OFFSET_BOTTOM = SHEET.nrows - 2 # SHEET.nrows = Total rows in sheet.
+	ROW_INTERVAL_START 		= 3
+	ROW_INTERVAL_END 		= SHEET.nrows - 2 #SHEET.nrows = Total rows in file.
 except:
 	print FILE_NAME + " not found in current directory!"
 
@@ -50,13 +50,13 @@ except:
 	print "Failed to create the SQLAlchemy database!"
 
 
-# Class to which we the SQLAlchemy table we are going to use.
-class create_table(BASE):
+# Class to which we map the SQLAlchemy table we are going to use.
+class results(BASE):
 	"""
 	Creates table to be filled with information from the .XLS file
 	"""
 	try:
-		__tablename__ = "Resultados"
+		__tablename__ = "Results"
 		id 					= Column(Integer, primary_key=True)
 		InstitutionCode 	= Column(Integer(4))
 		CourseCode 			= Column(Integer(4))
@@ -71,7 +71,9 @@ class create_table(BASE):
 	except:
 		print "Failed to setup SQAlchemy database's table!"
 
+
 # Function which populates the generated Database's table
+# TODO(Jorge): utilize this function
 def populate_database():
 	# Drop the existing database
 	try:
@@ -87,6 +89,21 @@ def populate_database():
 
 	# Populate the Database's table
 	try:
-		DATABASE.execute()
+		data_number = 0
+		for i in range(ROW_INTERVAL_START, ROW_INTERVAL_END):
+			DATABASE.execute(results.__table__.insert()),
+			[{
+			"InstitutionCode": SHEET.row_values(i),
+			"CourseCode": SHEET.row_values(i),
+			"InstiutionName": SHEET.row_values(i),
+			"CourseName": SHEET.row_values(i),
+			"Degree": SHEET.row_values(i),
+			"InitialOpenings": SHEET.row_values(i),
+			"Placed": SHEET.row_values(i),
+			"LastApplicantGrade": SHEET.row_values(i),
+			"RemainingOpenings": SHEET.row_values(i),
+			}]
+			datanumber=datanumber+1
+		print "Inserted " + data_number + " values!"
 	except:
 		print "Error: Could not populate the Database's table."
