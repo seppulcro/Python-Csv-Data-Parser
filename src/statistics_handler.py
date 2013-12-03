@@ -3,11 +3,11 @@
 """statistics_handler.py: Queries database to perform statistics."""
 
 """
-__author__      = "Marco SacristÃ£o, Jorge Batista"
+__author__      = "Marco Sacristão, Jorge Batista"
 __copyright__   = "Copyright 2013, ESTIG - IPBeja"
 __license__ 	= "GPL"
 __version__		= "1.1.0"
-__maintainer__	= "Marco SacristÃ£o"
+__maintainer__	= "Marco Sacristão"
 __email__		= "msacristao@gmail.com"
 __status__		= "Development"
 """
@@ -17,7 +17,7 @@ from sqlalchemy import *
 
 try:
 	# Target database to be used
-	DATABASE = create_engine('sqlite:///database.db', echo=True)
+	DATABASE = create_engine('sqlite:///database.db', echo=False)
 	METADATA = MetaData(DATABASE)
 	# Target Table
 	RESULTS = Table('Results', METADATA, autoload=True)
@@ -357,9 +357,9 @@ def openings_remaining_by_institution():
 		last_institution_code = column[1]
 
 # Debug!
-# students_placed_by_institution()
-# students_placed_by_district()
-# per_mil_students_placed_by_district()
-# percentage_all_students_placed_by_institution()
-# openings_remaining_by_district()
-# openings_remaining_by_institution()
+students_placed_by_institution()
+students_placed_by_district()
+per_mil_students_placed_by_district()
+percentage_all_students_placed_by_institution()
+openings_remaining_by_district()
+openings_remaining_by_institution()

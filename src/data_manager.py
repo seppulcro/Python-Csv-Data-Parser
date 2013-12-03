@@ -4,11 +4,11 @@
 Database."""
 
 """
-__author__      = "Marco SacristÃ£o, Jorge Batista"
+__author__      = "Marco Sacristão, Jorge Batista"
 __copyright__   = "Copyright 2013, ESTIG - IPBeja"
 __license__ 	= "GPL"
 __version__		= "1.0.1"
-__maintainer__	= "Marco SacristÃ£o"
+__maintainer__	= "Marco Sacristão"
 __email__		= "msacristao@gmail.com"
 __status__		= "Development"
 """
@@ -111,10 +111,10 @@ def populate_database():
 
 def check_district(institution_name):
 	# List of districts that exist in Portugal
-	available_districts = ['Lisboa','Porto',u'SetÃºbal','Braga','Aveiro',
-	'Leiria',u'SantarÃ©m','Faro','Coimbra','Viseu','Madeira',u'AÃ§ores',
-	'Viana do Castelo','Vila Real','Castelo Branco', u'Ã‰vora','Guarda','Beja',
-	u'BraganÃ§a','Portalegre']
+	available_districts = ['Lisboa','Porto',u'Setúbal','Braga','Aveiro',
+	'Leiria',u'Santarém','Faro','Coimbra','Viseu','Madeira',u'Açores',
+	'Viana do Castelo','Vila Real','Castelo Branco', u'Évora','Guarda','Beja',
+	u'Bragança','Portalegre']
 
 	'''
 	Checks the Institution name for any available District, if it finds one it 
@@ -127,8 +127,8 @@ def check_district(institution_name):
 
 	# List of regions to be associated with a district that exists in Portugal
 	unset_districts = ['Algarve','Beira Interior','Minho',
-	u'TrÃ¡s-os-Montes e Alto Douro',u'CÃ¡vado e do Ave','Tomar',
-	u'NÃ¡utica Infante D. Henrique','Estoril']
+	u'Trás-os-Montes e Alto Douro',u'Cávado e do Ave','Tomar',
+	u'Náutica Infante D. Henrique','Estoril']
 
 	'''
 	After checking the Institution's name and no available district is found 
@@ -156,4 +156,4 @@ def check_district(institution_name):
 	return "Unknown District"
 
 # Execute code if needed by using populate_database()
-# populate_database()
+populate_database()
