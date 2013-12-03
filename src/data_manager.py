@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""create_database.py: Module used for creating and populating SQLAlchemy
+"""data_manager.py: Module used for creating and populating SQLAlchemy
 Database."""
 
 """
@@ -44,7 +44,7 @@ except:
 try:
 	# populate_database() needs to be ran in order to Create Database.
 	BASE = declarative_base()
-	DATABASE = create_engine('sqlite:///database.db', echo=True)
+	DATABASE = create_engine('sqlite:///database.db', echo=False)
 	DB_SESSION = scoped_session(sessionmaker())
 	DB_SESSION.configure(bind=DATABASE, autoflush=False, expire_on_commit=False)
 	print "Running SQLAchemy version... " + sqlalchemy.__version__
@@ -155,5 +155,9 @@ def check_district(institution_name):
 				return available_districts[0]	# Return Lisboa
 	return "Unknown District"
 
+
+if __name__ == '__main__':
+	populate_database()
+
 # Execute code if needed by using populate_database()
-populate_database()
+#populate_database()

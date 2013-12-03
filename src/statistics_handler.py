@@ -357,9 +357,9 @@ def openings_remaining_by_institution():
 		last_institution_code = column[1]
 
 # Debug!
-students_placed_by_institution()
-students_placed_by_district()
-per_mil_students_placed_by_district()
-percentage_all_students_placed_by_institution()
-openings_remaining_by_district()
-openings_remaining_by_institution()
+#students_placed_by_institution()
+#students_placed_by_district()
+#per_mil_students_placed_by_district()
+#percentage_all_students_placed_by_institution()
+#openings_remaining_by_district()
+#openings_remaining_by_institution()
