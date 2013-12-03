@@ -188,11 +188,17 @@ def per_mil_students_placed_by_district():
 			csvfile.writerow(result_list)
 		last_district = column[10].encode('utf-8')
 
-def get_all_canditates():
+def get_all_placed():
 	# Run a query Selecting all elements
 	query = RESULTS.select()
 	run_query = query.execute()
-	
+	total_placed = 0.0
+	for i in run_query:
+		total_placed = total_placed + i[7]
+
+	return total_placed
+
+
 
 def percentage_all_students_placed_by_institution():
 	# Name of the file to be handled by the current function
@@ -238,7 +244,11 @@ def percentage_all_students_placed_by_institution():
 			Appends total placed students * 0.01 (Percentage)
 			Formatting to float only 2 decimals
 			'''
-			result_list.append("{0:.2f}".format(placed_students*0.01))
+			# Gets all placed students with get_all_placed()
+			total_placed = get_all_placed()
+			# Calculates the percentage of placed students
+			percentage_placed = (placed_students*100)/total_placed
+			result_list.append("{0:.2f}".format(percentage_placed))
 			csvfile.writerow(result_list)
 		last_institution_code = column[1]
 
@@ -347,9 +357,9 @@ def openings_remaining_by_institution():
 		last_institution_code = column[1]
 
 # Debug!
-students_placed_by_institution()
-students_placed_by_district()
-per_mil_students_placed_by_district()
-percentage_all_students_placed_by_institution()
-openings_remaining_by_district()
-openings_remaining_by_institution()
+# students_placed_by_institution()
+# students_placed_by_district()
+# per_mil_students_placed_by_district()
+# percentage_all_students_placed_by_institution()
+# openings_remaining_by_district()
+# openings_remaining_by_institution()
