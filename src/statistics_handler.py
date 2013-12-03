@@ -6,7 +6,7 @@
 __author__      = "Marco Sacristão, Jorge Batista"
 __copyright__   = "Copyright 2013, ESTIG - IPBeja"
 __license__ 	= "GPL"
-__version__		= "1.0.0"
+__version__		= "1.1.0"
 __maintainer__	= "Marco Sacristão"
 __email__		= "msacristao@gmail.com"
 __status__		= "Development"
@@ -55,7 +55,7 @@ def students_placed_by_institution():
 	# For each row in the previous query
 	for column in run_query:		
 		new_institution_code = column[1] # column[1] being InstituteCode
-		result_list = [] # Creates no list to which data will be appended
+		result_list = [] # Creates a list to which data will be appended
 		if last_institution_code != new_institution_code:			
 			result_list.append(column[3].encode('utf-8')) # Apnd InstitutionName
 			'''
@@ -87,41 +87,47 @@ def students_placed_by_district():
 	except:
 		print "Failed to open CSV file: " + str(file_name) + "!"
 
-	# Run a query Selecting all elements
+	'''
+	Run a query Selecting all elements and ordering it by District Ascending
+	'''
 	query = RESULTS.select()
-	run_query = query.execute()
+	order_by_asc = query.order_by(asc(RESULTS.c.District))
+	run_query = order_by_asc.execute()
 
 	'''
 	We use this variable to only count all the placed students 
 	once per institute
 	'''
-	last_institution_code = ""
+	last_district = ""
 	
 	# For each row in the previous query
-	for column in run_query:		
-		new_institution_code = column[10].encode('utf-8') # column[1] being InstituteCode
-		print new_institution_code
+	for column in run_query:
+		'''
+		column[10] being InstituteCode
+		'''	
+		new_institution_code = column[10].encode('utf-8')
 		result_list = [] # Creates no list to which data will be appended
-		if last_institution_code != new_institution_code:			
-			result_list.append(column[10].encode('utf-8')) # Apnd InstitutionName
+		if last_district != new_institution_code:	
+			'''
+			Append InstitutionName
+			'''		
+			result_list.append(column[10].encode('utf-8'))
 			'''
 			The code below selects from the query all the entries that 
-			match the given InstitutionCode and adds the students 
+			match the given District and adds the students 
 			that got placed in each row value until 
-			another InstitutionCode is detected
+			another District is detected
 			'''
 			get_all_intitution_by_id = RESULTS.select(
 				RESULTS.c.District.like(column[10]))
-			order_by_asc = get_all_intitution_by_id.order_by(asc(RESULTS.c.District)).all()
-			getocurrencies = order_by_asc.execute()
+			getocurrencies = get_all_intitution_by_id.execute()
 
 			placed_students = 0
 			for x in getocurrencies:
 				placed_students = placed_students + int(x[7]) # No.Placed in row
 			result_list.append(placed_students) # Appends total placed students
 			csvfile.writerow(result_list)
-		last_institution_code = column[10].encode('utf-8')
-		print last_institution_code
+		last_district = column[10].encode('utf-8')
 
 
 # Debug
