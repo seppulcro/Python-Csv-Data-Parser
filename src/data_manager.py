@@ -139,17 +139,17 @@ def check_district(institution_name):
 		if(unset_districts[i] in institution_name):
 			if(i==0): 	# Region Algarve found
 				return available_districts[7] 	# Return Faro
-			if(i==1): 	# Region Beira Interior(CovilhÃ£) found
+			if(i==1): 	# Region Beira Interior(Covilhã) found
 				return available_districts[14]	 # Return Castelo Branco
 			if(i==2): 	# Region Minho found
 				return available_districts[3] 	# Return Braga
-			if(i==3):	# Region TrÃ¡s-os-Montes e Alto Douro found
+			if(i==3):	# Region Trás-os-Montes e Alto Douro found
 				return available_districts[13]	# Return Vila Real
-			if(i==4): 	# Region CÃ¡vado e do Ave found
+			if(i==4): 	# Region Cávado e do Ave found
 				return available_districts[3] 	# Return Braga
 			if(i==5): 	# Region Tomar found
 				return available_districts[6]	# Return SantarÃ©m
-			if(i==6): 	# Region PaÃ§o de Arcos -> Oeiras
+			if(i==6): 	# Region Paço de Arcos -> Oeiras
 				return available_districts[0]	# Return Lisboa
 			if(i==7):	# Region Estoril -> Cascais
 				return available_districts[0]	# Return Lisboa

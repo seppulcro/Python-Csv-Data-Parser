@@ -3,7 +3,7 @@
 """plot_handler.py: Gets statistics and draws plots."""
 
 """
-__author__      = "Marco SacristÃ£o, Jorge Batista"
+__author__      = "Marco Sacristão, Jorge Batista"
 __copyright__   = "Copyright 2013, ESTIG - IPBeja"
 __license__ 	= "GPL"
 __version__		= "1.0.0"
